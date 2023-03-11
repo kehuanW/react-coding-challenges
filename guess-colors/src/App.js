@@ -4,7 +4,7 @@ import './App.css';
 function App() {
   const [targetColor, setTargetColor] = useState("");
   const [buttonHexList, setButtonHexList] = useState([]);
-  const [status, setStatus] = useState(false);
+  // const [status, setStatus] = useState(false);
   const [reply, setReply] = useState("");
 
 
@@ -37,21 +37,22 @@ function App() {
 
 
   useEffect(() => {
-    // if (status) {
-    let res = generateRandColorHexCombination()
-    setTargetColor(res[0]);
-    setButtonHexList(res[1]);
-    setReply("")
-    // }
-  }, [status])
-
-  useEffect(() => {
-    if (reply === targetColor) {
-      setStatus(true)
-    } else {
-      setStatus(false)
+    if (!reply || reply === targetColor) {
+      let res = generateRandColorHexCombination()
+      setTargetColor(res[0]);
+      setButtonHexList(res[1]);
+      setReply("")
     }
   }, [reply])
+
+  // useEffect(() => {
+  //   if (reply === targetColor) {
+  //     setStatus(true)
+  //   }
+  //   else {
+  //     setStatus(false)
+  //   }
+  // }, [reply])
 
   // console.log(targetColor)
 
@@ -61,8 +62,14 @@ function App() {
       {
         !reply
           ? <p>Please select a color hex!</p>
-          : <p>Ah...please select again!</p>
+          : <div>
+            <p>Your selected {reply}</p>
+            <p>Ah...please select again!</p>
+          </div>
       }
+      {/* {
+        status && <p>Congrats! You are right!</p>
+      } */}
       <div className='randomColor' style={{ backgroundColor: targetColor }}></div>
       <div className='buttomList'>
         {
